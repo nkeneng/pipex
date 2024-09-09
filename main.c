@@ -17,7 +17,7 @@ int	main(int argc, char *argv[])
 	ft_printf("Number of arguments: %d\n", argc);
 	for (int i = 0; i < argc; i++)
 	{
-		printf("Argument %d: %s\n", i, argv[i]);
+		ft_printf("Argument %d: %s\n", i, argv[i]);
 	}
 	return (EXIT_SUCCESS);
 }
