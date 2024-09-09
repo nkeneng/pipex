@@ -1,4 +1,4 @@
-NAME = project
+NAME = pipex
 
 CC = cc
 
