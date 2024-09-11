@@ -14,6 +14,7 @@ OBJS = $(SRCS:.c=.o)
 OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 
 all: submodules libft $(NAME)
+bonus: submodules libft $(NAME_BONUS)
 
 run: all
 	./$(NAME) infile.out "grep world" "wc -l" outfile.out
@@ -34,7 +35,7 @@ submodules:
 libft:
 	$(MAKE) -C libft
 
-bonus: $(OBJS_BONUS)
+$(NAME_BONUS): $(OBJS_BONUS)
 	$(CC) $(CFLAGS) $(OBJS_BONUS) $(LIBFT) -o $(NAME_BONUS)
 
 $(NAME): $(OBJS)
@@ -49,7 +50,7 @@ clean:
 	$(MAKE) -C libft clean
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) $(NAME_BONUS)
 	$(MAKE) -C libft fclean
 
 re: fclean all
