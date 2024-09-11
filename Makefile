@@ -4,7 +4,7 @@ CC = cc
 
 CFLAGS = -Wall -Werror -Wextra -g
 
-SRCS = main.c
+SRCS = main.c includes/command_execution.c includes/io_handling.c includes/pipe_management.c includes/process_management.c includes/resource_management.c includes/utils.c
 TEST_SRCS = $(filter-out main.c, $(SRCS))
 TESTS_FILES = $(shell find ./test -name "*_test.c")
 
@@ -16,7 +16,7 @@ TEST_OBJS = $(TESTS_FILES:.c=.o)
 all: submodules libft $(NAME)
 
 run: all
-	./$(NAME)
+	./$(NAME) infile.out "grep world" "wc -l" outfile.out
 
 submodules:
 	if [ ! -d "libft" ]; then \
