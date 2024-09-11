@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 16:33:15 by stevennke         #+#    #+#             */
-/*   Updated: 2024/09/11 19:31:08 by stevennke        ###   ########.fr       */
+/*   Updated: 2024/09/11 19:23:08 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,49 @@ int	validate_args(int argc, char *file_here_doc)
 		}
 	}
 	return (EXIT_SUCCESS);
+}
+
+/**
+ * Function: handle_heredoc
+ * ------------------------
+ * Handles the here doc input for the pipex program.
+ *
+ * @param limiter A string representing the limiter for the here document.
+ *
+ * This function creates a temporary file and writes the input from the here
+ * document into it until the limiter string is encountered. The input is read
+ * line by line using the get_next_line function. Each line is written to the
+ * temporary file, and the newline character at the end of the line is replaced
+ * with a null character before writing. If an error occurs while opening the
+ * temporary file, the function prints an error message and exits the program.
+ */
+void	handle_heredoc(char *limiter)
+{
+	int		fd;
+	char	*line;
+	char	*tmp_file;
+
+	tmp_file = "/tmp/heredoc_tmp";
+	fd = open(tmp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+	{
+		perror(tmp_file);
+		exit(EXIT_FAILURE);
+	}
+	line = get_next_line(0);
+	while (line)
+	{
+		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+		{
+			free(line);
+			break ;
+		}
+		line[ft_strlen(line) - 1] = '\0';
+		ft_putendl_fd(line, fd);
+		free(line);
+		line = get_next_line(0);
+	}
+	close(fd);
 }
 
 void	free_cmds(char ***cmds, int num_cmds)
@@ -85,6 +128,12 @@ int	main(int argc, char *argv[])
 		return (EXIT_FAILURE);
 	num_cmds = argc - 3;
 	first_cmd_index = 2;
+	if (ft_strncmp(argv[1], "here_doc", ft_strlen("here_doc")) == 0)
+	{
+		handle_heredoc(argv[2]);
+		num_cmds = argc - 4;
+		first_cmd_index = 3;
+	}
 	cmds = malloc((num_cmds + 1) * sizeof(char **));
 	cmds = fill_commands(cmds, num_cmds, argv, first_cmd_index);
 	ret = execute_commands(argv, cmds, num_cmds);

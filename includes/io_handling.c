@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:39:45 by stevennke         #+#    #+#             */
-/*   Updated: 2024/09/11 16:15:14 by stevennke        ###   ########.fr       */
+/*   Updated: 2024/09/11 18:55:19 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void	handle_input(char *argv[], int i, int **pipes)
 	}
 	else
 	{
-		infile = open(argv[1], O_RDONLY);
+		if (ft_strncmp(argv[1], "here_doc", ft_strlen("here_doc")) == 0)
+			infile = open("/tmp/heredoc_tmp", O_RDONLY);
+		else
+			infile = open(argv[1], O_RDONLY);
 		if (infile < 0)
 		{
 			perror(argv[1]);
@@ -38,14 +41,17 @@ void	handle_output(char *argv[], int i, int num_cmds, int **pipes)
 	int	outfile;
 	int	ac;
 
-	ac = num_cmds + 3;
+	ac = ft_strslen(argv);
 	if (i != num_cmds - 1)
 	{
 		dup2(pipes[i][1], STDOUT_FILENO);
 	}
 	else
 	{
-		outfile = open(argv[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (ft_strncmp(argv[1], "here_doc", ft_strlen("here_doc")) == 0)
+			outfile = open(argv[ac - 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+		else
+			outfile = open(argv[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (outfile < 0)
 		{
 			perror(argv[4]);

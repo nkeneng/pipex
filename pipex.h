@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 21:06:12 by stevennke         #+#    #+#             */
-/*   Updated: 2024/09/11 16:15:58 by stevennke        ###   ########.fr       */
+/*   Updated: 2024/09/11 18:27:38 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,5 @@ int		allocate_resources(int num_cmds, int ***pipes, pid_t **pids);
 void	free_resources(int num_cmds, int **pipes, pid_t *pids);
 void	wait_for_processes(int num_cmds, pid_t *pids);
 int		get_commands_size(char ***cmds);
+void	print_cmds(char ***cmds);
 #endif
