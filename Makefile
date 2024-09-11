@@ -1,17 +1,17 @@
 NAME = pipex
+NAME_BONUS = pipex_bonus
 
 CC = cc
 
 CFLAGS = -Wall -Werror -Wextra -g
 
 SRCS = main.c includes/command_execution.c includes/io_handling.c includes/pipe_management.c includes/process_management.c includes/resource_management.c includes/utils.c
-TEST_SRCS = $(filter-out main.c, $(SRCS))
-TESTS_FILES = $(shell find ./test -name "*_test.c")
+SRCS_BONUS = main_bonus.c includes/command_execution.c includes/io_handling.c includes/pipe_management.c includes/process_management.c includes/resource_management.c includes/utils.c
 
 LIBFT = -Llibft -lft
 
 OBJS = $(SRCS:.c=.o)
-TEST_OBJS = $(TESTS_FILES:.c=.o)
+OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 
 all: submodules libft $(NAME)
 
@@ -34,25 +34,24 @@ submodules:
 libft:
 	$(MAKE) -C libft
 
+bonus: $(OBJS_BONUS)
+	$(CC) $(CFLAGS) $(OBJS_BONUS) $(LIBFT) -o $(NAME_BONUS)
+
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
-
-test: $(TEST_SRCS:.c=.o) $(TEST_OBJS)
-	$(CC) $(CFLAGS) $(TEST_SRCS:.c=.o) $(TEST_OBJS) $(LIBFT) -lcriterion -o test.out && ./test.out
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
-	rm -f $(TEST_SRCS:.c=.o) $(TEST_OBJS)
+	rm -f $(OBJS_BONUS)
 	$(MAKE) -C libft clean
 
 fclean: clean
 	rm -f $(NAME)
-	rm -f test.out
 	$(MAKE) -C libft fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re submodules libft test
+.PHONY: all clean fclean re submodules libft test bonus
