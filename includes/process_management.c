@@ -20,16 +20,18 @@ void	output_to_file(char *str)
 	ft_putendl_fd(str, log_fd);
 }
 
-int	ft_execvp(t_data *data, int index)
+int	ft_execvp(t_data *data, int index, int **pipes, pid_t *pids)
 {
 	int		i;
+	char	*path1;
 	char	*path;
 
 	i = 0;
 	while ((*data).paths[i])
 	{
-		path = ft_strjoin((*data).paths[i], "/");
-		path = ft_strjoin(path, (*data).cmds[index][0]);
+		path1 = ft_strjoin((*data).paths[i], "/");
+		path = ft_strjoin(path1, (*data).cmds[index][0]);
+		free(path1);
 		if (access(path, X_OK) == 0)
 		{
 			execve(path, (*data).cmds[index], NULL);
@@ -38,11 +40,12 @@ int	ft_execvp(t_data *data, int index)
 			exit(EXIT_FAILURE);
 		}
 		i++;
-	}
-	if (path)
 		free(path);
+	}
 	perror("invalid command");
-	exit(EXIT_FAILURE);
+	free_resources((*data).num_cmds, pipes, pids);
+	free_cmds(data);
+	exit(127);
 }
 
 void	fork_processes(char *argv[], t_data *data, int **pipes, pid_t *pids)
@@ -58,7 +61,7 @@ void	fork_processes(char *argv[], t_data *data, int **pipes, pid_t *pids)
 			handle_input(argv, i, pipes);
 			handle_output(argv, i, (*data).num_cmds, pipes);
 			close_pipes((*data).num_cmds, pipes);
-			ft_execvp(data, i);
+			ft_execvp(data, i, pipes, pids);
 		}
 		i++;
 	}
@@ -79,8 +82,7 @@ int	wait_for_processes(t_data *data, pid_t *pids)
 			{
 				if (i == (*data).num_cmds - 1)
 				{
-					return (EXIT_FAILURE);
-					// return (WEXITSTATUS(status));
+					return (WEXITSTATUS(status));
 				}
 			}
 		}

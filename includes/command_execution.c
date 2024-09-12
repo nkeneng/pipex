@@ -18,7 +18,10 @@ int	execute_commands(char *argv[], t_data *data)
 	int		res;
 
 	if (allocate_resources((*data).num_cmds, &pipes, &pids) == EXIT_FAILURE)
+	{
+		free_resources((*data).num_cmds, pipes, pids);
 		return (EXIT_FAILURE);
+	}
 	create_pipes((*data).num_cmds, pipes);
 	fork_processes(argv, data, pipes, pids);
 	close_pipes((*data).num_cmds, pipes);
