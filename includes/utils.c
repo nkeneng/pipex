@@ -15,10 +15,18 @@
 void	free_cmds(t_data *data)
 {
 	int	i;
+	int	j;
 
 	i = 0;
+	j = 0;
 	while (i < (*data).num_cmds)
 	{
+		j = 0;
+		while ((*data).cmds[i][j]) 
+		{
+			free((*data).cmds[i][j]);
+			j++;
+		}
 		free((*data).cmds[i]);
 		i++;
 	}
@@ -29,24 +37,23 @@ void	free_cmds(t_data *data)
 		free((*data).paths[i]);
 		i++;
 	}
+	free((*data).paths);
 }
 
-char	**path_exists(char **envp)
+void path_exists(char **envp, t_data *data)
 {
 	int		i;
-	char	**paths;
 
 	i = 0;
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 		{
-			paths = ft_split(envp[i] + 5, ':');
-			return (paths);
+			(*data).paths = ft_split(envp[i] + 5, ':');
+			break;
 		}
 		i++;
 	}
-	return (NULL);
 }
 
 /**
