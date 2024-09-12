@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:40:36 by stevennke         #+#    #+#             */
-/*   Updated: 2024/09/12 20:30:49 by stevennke        ###   ########.fr       */
+/*   Updated: 2024/09/12 21:16:21 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_execvp(t_data *data, int index)
 	if (path)
 		free(path);
 	perror("invalid command");
-	return (EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 }
 
 void	fork_processes(char *argv[], t_data *data, int **pipes, pid_t *pids)
@@ -80,6 +80,7 @@ int	wait_for_processes(t_data *data, pid_t *pids)
 				if (i == (*data).num_cmds - 1)
 				{
 					return (EXIT_FAILURE);
+					// return (WEXITSTATUS(status));
 				}
 			}
 		}
