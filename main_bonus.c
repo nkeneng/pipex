@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 16:33:15 by stevennke         #+#    #+#             */
-/*   Updated: 2024/09/11 22:05:46 by stevennke        ###   ########.fr       */
+/*   Updated: 2024/09/12 19:29:05 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 	if (validate_args(argc, argv[1]) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	data.paths = path_exists(envp);
+	path_exists(envp, &data);
 	if (!data.paths)
 	{
 		ft_putstr_fd("Error: PATH not found\n", 2);

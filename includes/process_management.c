@@ -6,11 +6,19 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:40:36 by stevennke         #+#    #+#             */
-/*   Updated: 2024/09/11 22:01:06 by stevennke        ###   ########.fr       */
+/*   Updated: 2024/09/12 20:30:49 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
+
+void	output_to_file(char *str)
+{
+	int	log_fd;
+
+	log_fd = open("log.txt", O_WRONLY | O_CREAT | O_APPEND, 0644);
+	ft_putendl_fd(str, log_fd);
+}
 
 int	ft_execvp(t_data *data, int index)
 {
@@ -56,14 +64,26 @@ void	fork_processes(char *argv[], t_data *data, int **pipes, pid_t *pids)
 	}
 }
 
-void	wait_for_processes(int num_cmds, pid_t *pids)
+int	wait_for_processes(t_data *data, pid_t *pids)
 {
 	int	i;
+	int	status;
 
 	i = 0;
-	while (i < num_cmds)
+	while (i < (*data).num_cmds)
 	{
-		waitpid(pids[i], NULL, 0);
+		waitpid(pids[i], &status, 0);
+		if (WIFEXITED(status))
+		{
+			if (WEXITSTATUS(status) != 0)
+			{
+				if (i == (*data).num_cmds - 1)
+				{
+					return (EXIT_FAILURE);
+				}
+			}
+		}
 		i++;
 	}
+	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 21:06:12 by stevennke         #+#    #+#             */
-/*   Updated: 2024/09/11 22:04:31 by stevennke        ###   ########.fr       */
+/*   Updated: 2024/09/12 20:31:56 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,14 @@ void		close_pipes(int num_cmds, int **pipes);
 
 void		fork_processes(char *argv[], t_data *data, int **pipes,
 				pid_t *pids);
-void		wait_for_processes(int num_cmds, pid_t *pids);
+int			wait_for_processes(t_data *data, pid_t *pids);
 void		handle_input(char *argv[], int i, int **pipes);
 void		handle_output(char *argv[], int i, int num_cmds, int **pipes);
 int			execute_commands(char *argv[], t_data *data);
 int			allocate_resources(int num_cmds, int ***pipes, pid_t **pids);
 void		free_resources(int num_cmds, int **pipes, pid_t *pids);
-void		wait_for_processes(int num_cmds, pid_t *pids);
 void		free_cmds(t_data *data);
-void path_exists(char **envp, t_data *data);
+void		path_exists(char **envp, t_data *data);
 void		fill_commands(t_data *data, char *argv[], int first_cmd_index);
 int			validate_args(int argc, char *file_here_doc);
 #endif

@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 16:10:10 by stevennke         #+#    #+#             */
-/*   Updated: 2024/09/11 22:23:52 by stevennke        ###   ########.fr       */
+/*   Updated: 2024/09/12 19:29:28 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	free_cmds(t_data *data)
 	while (i < (*data).num_cmds)
 	{
 		j = 0;
-		while ((*data).cmds[i][j]) 
+		while ((*data).cmds[i][j])
 		{
 			free((*data).cmds[i][j]);
 			j++;
@@ -40,9 +40,9 @@ void	free_cmds(t_data *data)
 	free((*data).paths);
 }
 
-void path_exists(char **envp, t_data *data)
+void	path_exists(char **envp, t_data *data)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (envp[i])
@@ -50,7 +50,7 @@ void path_exists(char **envp, t_data *data)
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 		{
 			(*data).paths = ft_split(envp[i] + 5, ':');
-			break;
+			break ;
 		}
 		i++;
 	}

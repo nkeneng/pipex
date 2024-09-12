@@ -16,7 +16,8 @@ OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 all: submodules libft $(NAME)
 bonus: submodules libft $(NAME_BONUS)
 valgrind: all
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) a "grep world" "wc -l" b
+	# valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) a "grep world" "wc -l" b
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) basic.txt "cat -e" "grep nonexistingword" outfile
 
 run: all
 	./$(NAME) infile.out "grep world" "wc -l" outfile.out
