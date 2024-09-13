@@ -24,7 +24,7 @@ int	ft_execvp(t_data *data, int index)
 		path1 = ft_strjoin((*data).paths[i], "/");
 		path = ft_strjoin(path1, (*data).cmds[index][0]);
 		free(path1);
-		if (access(path, X_OK) == 0)
+		if (path && access(path, X_OK) == 0)
 		{
 			execve(path, (*data).cmds[index], NULL);
 			free(path);
