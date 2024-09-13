@@ -6,7 +6,7 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 16:10:10 by stevennke         #+#    #+#             */
-/*   Updated: 2024/09/12 19:29:28 by stevennke        ###   ########.fr       */
+/*   Updated: 2024/09/13 18:37:51 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,20 @@ void	free_cmds(t_data *data)
 	{
 		j = 0;
 		while ((*data).cmds[i][j])
-		{
-			free((*data).cmds[i][j]);
-			j++;
-		}
+			free((*data).cmds[i][j++]);
 		free((*data).cmds[i]);
 		i++;
 	}
 	free((*data).cmds);
 	i = 0;
 	while ((*data).paths[i])
-	{
-		free((*data).paths[i]);
-		i++;
-	}
+		free((*data).paths[i++]);
 	free((*data).paths);
+	i = 0;
+	free((*data).pids);
+	while (i < (*data).num_cmds - 1)
+		free((*data).pipes[i++]);
+	free((*data).pipes);
 }
 
 void	path_exists(char **envp, t_data *data)
@@ -101,4 +100,12 @@ void	fill_commands(t_data *data, char *argv[], int first_cmd_index)
 		i++;
 	}
 	(*data).cmds[i] = NULL;
+}
+
+void	output_to_file(char *str)
+{
+	int	log_fd;
+
+	log_fd = open("log.txt", O_WRONLY | O_CREAT | O_APPEND, 0644);
+	ft_putendl_fd(str, log_fd);
 }

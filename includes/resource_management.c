@@ -6,33 +6,17 @@
 /*   By: stevennkeneng <snkeneng@student.42ber      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:45:36 by stevennke         #+#    #+#             */
-/*   Updated: 2024/09/11 15:49:16 by stevennke        ###   ########.fr       */
+/*   Updated: 2024/09/13 18:38:38 by stevennke        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-int	allocate_resources(int num_cmds, int ***pipes, pid_t **pids)
+int	allocate_resources(t_data *data)
 {
-	*pipes = malloc((num_cmds - 1) * sizeof(int *));
-	*pids = malloc(num_cmds * sizeof(pid_t));
-	if (!*pipes || !*pids)
-	{
+	(*data).pipes = malloc(((*data).num_cmds - 1) * sizeof(int *));
+	(*data).pids = malloc((*data).num_cmds * sizeof(pid_t));
+	if (!(*data).pipes || !(*data).pids)
 		return (EXIT_FAILURE);
-	}
 	return (EXIT_SUCCESS);
-}
-
-void	free_resources(int num_cmds, int **pipes, pid_t *pids)
-{
-	int	i;
-
-	i = 0;
-	free(pids);
-	while (i < num_cmds - 1)
-	{
-		free(pipes[i]);
-		i++;
-	}
-	free(pipes);
 }
