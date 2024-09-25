@@ -24,14 +24,14 @@ run: all
 	./$(NAME) infile.out "grep world" "wc -l" outfile.out
 
 submodules:
-	if [ ! -d "libft" ]; then \
+	@if [ ! -d "libft" ]; then \
 		mkdir libft; \
 	fi
-	if [ -z "$(shell ls -A libft)" ]; then \
+	@if [ -z "$(shell ls -A libft)" ]; then \
 		echo "libft submodule not initialized, initializing..."; \
 		git submodule init && git submodule update --recursive; \
 	fi
-	if [ -z "$(shell ls -A libft/ft_printf)" -o -z "$(shell ls -A libft/get_next_line)" ]; then \
+	@if [ -z "$(shell ls -A libft/ft_printf)" -o -z "$(shell ls -A libft/get_next_line)" ]; then \
 		echo "libft submodule not initialized, initializing..."; \
 		cd libft && git submodule init && git submodule update --recursive; \
 	fi

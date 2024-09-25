@@ -18,7 +18,7 @@ int	main(int argc, char *argv[], char *envp[])
 	int		ret;
 	int		first_cmd_index;
 
-	if (validate_args(argc, argv[1]) == EXIT_FAILURE)
+	if (validate_args(argc, argv[1], 0) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	path_exists(envp, &data);
 	if (!data.paths)

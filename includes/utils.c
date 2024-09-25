@@ -71,19 +71,30 @@ void	path_exists(char **envp, t_data *data)
  * and if so, it prints an error message and returns EXIT_FAILURE. If the
  * arguments are valid, it returns EXIT_SUCCESS.
  */
-int	validate_args(int argc, char *file_here_doc)
+int	validate_args(int argc, char *file_here_doc, int bonus)
 {
-	if (argc < 5)
+	if (!bonus)
 	{
-		ft_putstr_fd("Error: Invalid number of arguments\n", 2);
-		return (EXIT_FAILURE);
-	}
-	else if (ft_strncmp(file_here_doc, "here_doc", ft_strlen("here_doc")) == 0)
-	{
-		if (argc < 6)
+		if (argc != 5)
 		{
 			ft_putstr_fd("Error: Invalid number of arguments\n", 2);
 			return (EXIT_FAILURE);
+		}
+	}
+	else
+	{
+		if (argc < 5)
+		{
+			ft_putstr_fd("Error: Invalid number of arguments\n", 2);
+			return (EXIT_FAILURE);
+		}
+		if (ft_strncmp(file_here_doc, "here_doc", ft_strlen("here_doc")) == 0)
+		{
+			if (argc < 6)
+			{
+				ft_putstr_fd("Error: Invalid number of arguments\n", 2);
+				return (EXIT_FAILURE);
+			}
 		}
 	}
 	return (EXIT_SUCCESS);

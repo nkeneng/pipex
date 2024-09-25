@@ -43,6 +43,6 @@ int			allocate_resources(t_data *data);
 void		free_cmds(t_data *data);
 void		path_exists(char **envp, t_data *data);
 void		fill_commands(t_data *data, char *argv[], int first_cmd_index);
-int			validate_args(int argc, char *file_here_doc);
+int			validate_args(int argc, char *file_here_doc, int bonus);
 void		output_to_file(char *str);
 #endif
